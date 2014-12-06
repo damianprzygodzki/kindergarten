@@ -123,6 +123,8 @@ class Message
     public function setReceiver($receiver)
     {
         $this->receiver = $receiver;
+
+        return $this;
     }
 
     /**
@@ -139,6 +141,8 @@ class Message
     public function setSender($sender)
     {
         $this->sender = $sender;
+
+        return $this;
     }
 
     /**
@@ -149,11 +153,8 @@ class Message
         return $this->datetime;
     }
 
-    /**
-     * @param datetime $datetime
-     */
-    public function setDatetime($datetime)
+    public function __construct()
     {
-        $this->datetime = $datetime;
+        $this->datetime = new \DateTime("now");
     }
 }
