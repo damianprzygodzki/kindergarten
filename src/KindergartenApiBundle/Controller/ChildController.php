@@ -13,56 +13,56 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use KindergartenApiBundle\Entity\Child;
 
-class MessageController extends Controller
+class ChildController extends Controller
 {
+
     /**
-     * @Route("/getAllMessages")
+     * @Route("/newChild")
      * @Method("POST")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getAllMessagesAction(Request $request)
-    {
-        $data = $request->request->all();
-
-        $um = $this->get('fos_user.user_manager');
-        $user = $um->findUserByUsername($data['username']);
-
-        $messages = $user->getMessagesSent();
-
-        $serializer = $this->get('jms_serializer');
-        $messagesJSON = $serializer->serialize($messages, 'json');
-
-        return new Response($messagesJSON);
-    }
-
-    /**
-     * @Route("/sendMessage")
-     * @Method("POST")
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function sendMessageAction(Request $request)
+    public function newChild(Request $request)
     {
         $data = $request->request->all();
 
         $em = $this->getDoctrine()->getManager();
         $um = $this->get('fos_user.user_manager');
 
-        $sender = $um->findUserByUsername($data['sender']);
-        $receiver = $um->findUserByUsername($data['receiver']);
+        $parent = $um->findUserByUsername($data['parent']);
 
-        $message = new Message();
-        $message
-            ->setTitle($data['title'])
-            ->setContent($data['content'])
-            ->setSender($sender)
-            ->setReceiver($receiver);
+        $child = new Child();
+        $child
+            ->setBirthdate($data['birthdate'])
+            ->setFullname($data['fullname'])
+            ->setChildParent($parent);
 
-        $em->persist($message);
+        $em->persist($child);
+        $em->flush();
+
+        return new Response(200);
+    }
+
+    /**
+     * @Route("/removeChild")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function removeChild(Request $request)
+    {
+        $data = $request->request->all();
+
+        $doctrine = $this->getDoctrine();
+        $em = $doctrine->getManager();
+
+        $child = $doctrine->getRepository('KindergartenApiBundle:Child')->find($data["childId"]);
+
+        $em->remove($child);
         $em->flush();
 
         return new Response(200);

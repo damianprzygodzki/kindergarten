@@ -1,3 +1,8 @@
+kindergarten_web:
+    resource: "@KindergartenWebBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 kindergarten_api:
     resource: "@KindergartenApiBundle/Controller/"
     type:     annotation
