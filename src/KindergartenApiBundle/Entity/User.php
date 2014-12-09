@@ -5,15 +5,14 @@ namespace KindergartenApiBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use JMS\Serializer\Annotation\ExclusionPolicy;
-use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation as JMS;
 
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_user")
  *
- * @ExclusionPolicy("all")
+ * @JMS\ExclusionPolicy("all")
  */
 class User extends BaseUser
 {
@@ -22,7 +21,7 @@ class User extends BaseUser
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Expose
+     * @JMS\Expose
      */
     protected $id;
 
@@ -36,7 +35,12 @@ class User extends BaseUser
      */
     protected $messagesReceived;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fullname", type="string", length=255)
+     */
+    private $fullname;
 
 
     public function __construct()
@@ -85,5 +89,21 @@ class User extends BaseUser
     public function setMessagesReceived($messagesReceived)
     {
         $this->messagesReceived = $messagesReceived;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * @param string $fullname
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
     }
 }

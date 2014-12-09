@@ -3,6 +3,7 @@
 namespace KindergartenApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * Teacher
@@ -10,14 +11,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Teacher extends User
+class Teacher extends BaseUser
 {
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
      *
-     * @Expose
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -26,21 +27,14 @@ class Teacher extends User
      */
     protected $classroom;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
-     * @param mixed $id
+     * @var string
+     *
+     * @ORM\Column(name="fullname", type="string", length=255)
      */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
+    private $fullname;
+
 
     /**
      * @return mixed
@@ -62,5 +56,37 @@ class Teacher extends User
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * @param string $fullname
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
     }
 }

@@ -5,6 +5,7 @@ namespace KindergartenApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use KindergartenApiBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,19 +33,26 @@ class ChildController extends Controller
         $em = $this->getDoctrine()->getManager();
         $um = $this->get('fos_user.user_manager');
 
+        $classroom = $em
+            ->getRepository('KindergartenApiBundle:Classroom')
+            ->find($data['classroom']);
+
         $parent = $um->findUserByUsername($data['parent']);
 
         $child = new Child();
         $child
             ->setBirthdate($data['birthdate'])
             ->setFullname($data['fullname'])
-            ->setChildParent($parent);
+            ->setChildParent($parent)
+            ->setClassroom($classroom);
 
         $em->persist($child);
         $em->flush();
 
         return new Response(200);
     }
+
+
 
     /**
      * @Route("/removeChild")
@@ -67,4 +75,13 @@ class ChildController extends Controller
 
         return new Response(200);
     }
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
 }

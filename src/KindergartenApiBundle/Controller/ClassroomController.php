@@ -14,61 +14,75 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use KindergartenApiBundle\Entity\Classroom;
 
-class MessageController extends Controller
+class ClassroomController extends Controller
 {
+
     /**
-     * @Route("/getAllMessages")
+     * @Route("/newClassroom")
      * @Method("POST")
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getAllMessagesAction(Request $request)
-    {
-        $data = $request->request->all();
-
-        $um = $this->get('fos_user.user_manager');
-        $user = $um->findUserByUsername($data['username']);
-
-        $messages = $user->getMessagesSent();
-
-        $serializer = $this->get('jms_serializer');
-        $messagesJSON = $serializer->serialize($messages, 'json');
-
-        return new Response($messagesJSON);
-    }
-
-    /**
-     * @Route("/sendMessage")
-     * @Method("POST")
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function sendMessageAction(Request $request)
+    public function newClassroom(Request $request)
     {
         $data = $request->request->all();
 
         $em = $this->getDoctrine()->getManager();
-        $um = $this->get('fos_user.user_manager');
 
-        $sender = $um->findUserByUsername($data['sender']);
-        $receiver = $um->findUserByUsername($data['receiver']);
+        $teacher = $em->getRepository('KindergartenApiBundle:Teacher')->find($data['teacher']);
 
-        $message = new Message();
-        $message
-            ->setTitle($data['title'])
-            ->setContent($data['content'])
-            ->setSender($sender)
-            ->setReceiver($receiver);
+        $classroom = new Classroom();
+        $classroom
+            ->setName($data['name'])
+            ->setTeacher($teacher);
 
-        $em->persist($message);
+        $em->persist($classroom);
         $em->flush();
 
         return new Response(200);
     }
+    /**
+     * @Route("/getAllClassroom")
+     * @Method("POST")
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getAllClassroom()
+    {
+        $doctrine = $this->getDoctrine();
+        $classrooms = $doctrine->getRepository('KindergartenApiBundle:Classroom')->findAll();
 
+        $serializer = $this->get('jms_serializer');
+        $classroomsJSON = $serializer->serialize($classrooms, 'json');
+
+        return new Response($classroomsJSON);
+    }
+
+
+    /**
+     * @Route("/removeClassroom")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function removeClassroom(Request $request)
+    {
+        $data = $request->request->all();
+
+        $doctrine = $this->getDoctrine();
+        $em = $doctrine->getManager();
+
+        $classroom = $doctrine->getRepository('KindergartenApiBundle:Classroom')->find($data["classroomId"]);
+
+        $em->remove($classroom);
+        $em->flush();
+
+        return new Response(200);
+    }
     /**
      * @param ContainerInterface $container
      */

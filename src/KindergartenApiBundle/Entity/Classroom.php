@@ -28,12 +28,12 @@ class Classroom
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Teacher", inversedBy="classRoom")
+     * @ORM\OneToOne(targetEntity="Teacher", inversedBy="classroom")
      */
     private $teacher;
 
     /**
-     * @ORM\OneToMany(targetEntity="Child", mappedBy="classRoom")
+     * @ORM\OneToMany(targetEntity="Child", mappedBy="classroom")
      */
     private $children;
 
@@ -63,6 +63,8 @@ class Classroom
     public function setTeacher($teacher)
     {
         $this->teacher = $teacher;
+
+        return $this;
     }
 
     /**
@@ -95,5 +97,7 @@ class Classroom
     public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 }

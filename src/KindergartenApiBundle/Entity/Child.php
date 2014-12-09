@@ -115,6 +115,8 @@ class Child
     public function setChildParent($childParent)
     {
         $this->childParent = $childParent;
+
+        return $this;
     }
 
     /**

@@ -1,0 +1,34 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
+
+{% block content %}
+    <div>
+        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_teacher_addclassroom') }}">Dodaj klase</a>
+    </div>
+    <br>
+    {% for classroom in classrooms %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Klasa {{ classroom.name }} - Wychowawca: {{ classroom.teacher.fullname }}
+            <a class="btn btn-primary btn-xs pull-right" href="{{ path('kindergartenweb_teacher_addchild') }}">Dodaj dziecko</a>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th style="width: 30%">Imie i nazwisko</th>
+                <th>Data urodzenia</th>
+            </tr>
+            {% for child in classroom.children %}
+               <tr>
+                   <td>{{ child.fullname }}</td>
+                   <td>{{ child.birthdate | date("Y-m-d") }}</td>
+               </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+
+{% endblock %}
