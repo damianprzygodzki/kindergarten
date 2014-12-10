@@ -28,7 +28,7 @@ class Classroom
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="Teacher", inversedBy="classroom")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="classroom")
      */
     private $teacher;
 

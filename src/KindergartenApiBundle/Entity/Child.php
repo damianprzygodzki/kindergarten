@@ -36,7 +36,7 @@ class Child
     private $birthdate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ChildParent",inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="User",inversedBy="children")
      */
     private $childParent;
 

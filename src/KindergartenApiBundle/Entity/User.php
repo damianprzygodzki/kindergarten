@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="fos_user")
+ * @ORM\Table(name="FosUser")
  *
  * @JMS\ExclusionPolicy("all")
  */
@@ -28,12 +28,12 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="sender")
      */
-    protected $messagesSent;
+    private $messagesSent;
 
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="receiver")
      */
-    protected $messagesReceived;
+    private $messagesReceived;
 
     /**
      * @var string
@@ -41,6 +41,21 @@ class User extends BaseUser
      * @ORM\Column(name="fullname", type="string", length=255)
      */
     private $fullname;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Child", mappedBy="childParent")
+     */
+    private $children;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Classroom", mappedBy="teacher")
+     */
+    private $classroom;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="users")
+     */
+    private $group;
 
 
     public function __construct()
@@ -105,5 +120,54 @@ class User extends BaseUser
     public function setFullname($fullname)
     {
         $this->fullname = $fullname;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClassroom()
+    {
+        return $this->classroom;
+    }
+
+    /**
+     * @param mixed $classroom
+     */
+    public function setClassroom($classroom)
+    {
+        $this->classroom = $classroom;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param mixed $children
+     */
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param mixed $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
     }
 }
