@@ -37,18 +37,20 @@ class Child
 
     /**
      * @ORM\ManyToOne(targetEntity="User",inversedBy="children")
+     * @ORM\JoinColumn(name="parentId", referencedColumnName="id")
      */
     private $childParent;
 
     /**
      * @ORM\ManyToOne(targetEntity="Classroom", inversedBy="children")
+     * @ORM\JoinColumn(name="classroomId", referencedColumnName="id")
      */
     private $classroom;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

@@ -2,6 +2,7 @@
 
 namespace KindergartenApiBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,7 +29,8 @@ class Classroom
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="classroom")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="classroom")
+     * @ORM\JoinColumn(name="teacherId", referencedColumnName="id")
      */
     private $teacher;
 
@@ -38,6 +40,10 @@ class Classroom
     private $children;
 
 
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
 
     /**
      * Get id

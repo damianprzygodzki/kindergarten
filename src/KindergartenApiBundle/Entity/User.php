@@ -48,12 +48,13 @@ class User extends BaseUser
     private $children;
 
     /**
-     * @ORM\OneToOne(targetEntity="Classroom", mappedBy="teacher")
+     * @ORM\OneToMany(targetEntity="Classroom", mappedBy="teacher")
      */
     private $classroom;
 
     /**
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="users")
+     * @ORM\JoinColumn(name="groupId", referencedColumnName="id")
      */
     private $group;
 
@@ -64,6 +65,7 @@ class User extends BaseUser
         $this->messagesSent = new ArrayCollection();
         $this->messagesReceived = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->classroom = new ArrayCollection();
     }
 
     /**

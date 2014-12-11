@@ -42,20 +42,13 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
             $manager->persist($load);
         }
 
-
         $teachersData = array(
             array('asd@asd.as', 'asd', 'Jan Kowalski', 'A'),
             array('asd1@asd.as', 'asd1', 'Andrzej Nowak', 'B'),
             array('asd2@asd.as', 'asd2', 'Jan Poniedziałek', 'C')
         );
 
-        foreach ($teachersData as $t) {
-            $classroom = new Classroom();
-            $classroom->setName($t[3]);
-            $manager->persist($classroom);
-        }
-
-        /* @var $userManager \FOS\UserBundle\Doctrine\UserManager */
+        /* @var $um \FOS\UserBundle\Doctrine\UserManager */
         $um = $this->container->get('fos_user.user_manager');
 
         foreach ($teachersData as $teacher) {
@@ -73,16 +66,22 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
                 $manager->getRepository('KindergartenApiBundle:Group')->findOneBy(array('name' => 'Teacher'))
             );
 
-            $newTeacher->setClassroom(
-                $manager->getRepository('KindergartenApiBundle:Classroom')->findOneBy(array('name' => $teacher[3]))
-            );
-
             $newTeacher->setFullname($teacher[2]);
 
             $manager->persist($newTeacher);
+            $manager->flush();
         }
 
 
-        $manager->flush();
+
+        foreach ($teachersData as $t) {
+            $classroom = new Classroom();
+            $classroom->setName($t[3]);
+            $classroom->setTeacher($um->findUserByUsername($t[1]));
+            $manager->persist($classroom);
+            $manager->flush();
+        }
+
+
     }
 }

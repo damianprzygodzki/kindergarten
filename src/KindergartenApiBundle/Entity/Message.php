@@ -23,11 +23,13 @@ class Message
 
     /**
      * @ORM\ManyToOne(targetEntity="User",inversedBy="messagesSent")
+     * @ORM\JoinColumn(name="senderId", referencedColumnName="id")
      */
     private $sender;
 
     /**
      * @ORM\ManyToOne(targetEntity="User",inversedBy="messagesReceived")
+     * @ORM\JoinColumn(name="receiverId", referencedColumnName="id")
      */
     private $receiver;
 
