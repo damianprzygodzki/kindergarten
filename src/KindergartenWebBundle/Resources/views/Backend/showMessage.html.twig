@@ -1,0 +1,17 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
+
+{% block content %}
+    <a href="{{ path('kindergartenweb_backend_messages') }}" class="btn btn-default pull-right">Wróć do wiadomości</a>
+    <h2>{{ message.title }} <small>Wysłano: {{ message.datetime | date("Y-m-d g:ia") }}</small></h2>
+    <p>Wiadomość od {{ message.sender.fullname }}</p>
+    <p>{{ message.content }}</p>
+    {% if message.sender.username != app.user.username %}
+    <a href="{{ path('kindergartenweb_backend_newmessage', {'receiverUsername': message.sender }) }}" class="btn btn-primary">Odpowiedz</a>
+    {% endif %}
+    <a href="{{ path('kindergartenweb_backend_deletemessage', {'messageId': message.id}) }}" class="btn btn-danger">Usuń</a>
+
+
+
+{% endblock %}

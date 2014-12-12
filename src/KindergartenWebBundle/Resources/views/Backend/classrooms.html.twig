@@ -4,8 +4,8 @@
 
 {% block content %}
     <div>
-        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_teacher_addclassroom') }}">Dodaj klase</a>
-        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_teacher_addteacher') }}">Dodaj wychowawce</a>
+        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_backend_addclassroom') }}">Dodaj klase</a>
+        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_backend_addteacher') }}">Dodaj wychowawce</a>
     </div>
     <br>
     {% for classroom in classrooms %}
@@ -14,7 +14,7 @@
             <div class="panel-heading">
                 Klasa {{ classroom.name }} - Wychowawca: {{ classroom.teacher.fullname }}
                 <a class="btn btn-primary btn-xs pull-right"
-                   href="{{ path('kindergartenweb_teacher_addchild', {'classroomId': classroom.id}) }}">Dodaj
+                   href="{{ path('kindergartenweb_backend_addchild', {'classroomId': classroom.id}) }}">Dodaj
                     dziecko</a>
             </div>
 

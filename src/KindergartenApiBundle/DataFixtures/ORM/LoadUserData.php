@@ -33,14 +33,6 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
-        $loads = array(
-            $group = new Group('Teacher'),
-            $group2 = new Group('Parent')
-        );
-
-        foreach ($loads as $load) {
-            $manager->persist($load);
-        }
 
         $teachersData = array(
             array('asd@asd.as', 'asd', 'Jan Kowalski', 'A'),
@@ -56,15 +48,13 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
 
             $newTeacher
                 ->setEmail($teacher[0])
-                ->setUsername($teacher[1]);
+                ->setUsername($teacher[1])
+                ->setRoles(array("ROLE_ADMIN"))
+                ->setEnabled(true);
             $um->updateCanonicalFields($newTeacher);
 
             $newTeacher->setPlainPassword($teacher[1]);
             $um->updatePassword($newTeacher);
-
-            $newTeacher->setGroup(
-                $manager->getRepository('KindergartenApiBundle:Group')->findOneBy(array('name' => 'Teacher'))
-            );
 
             $newTeacher->setFullname($teacher[2]);
 

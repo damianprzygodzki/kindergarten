@@ -1,0 +1,56 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
+
+{% block content %}
+    <div>
+        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_backend_newmessage') }}">Nowa wiadomość</a>
+    </div>
+    <br>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Twoje odebrane wiadomości
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th style="width: 50%">Tytuł</th>
+                <th style="width: 30%">Nadawca</th>
+                <th>Data</th>
+            </tr>
+            {% for message in messagesReceived %}
+                <tr>
+                    <td><a href="{{ path('kindergartenweb_backend_showmessage', {'messageId': message.id}) }}">{{ message.title }}</a></td>
+                    <td>{{ message.sender.fullname }}</td>
+                    <td>{{ message.datetime | date("Y-m-d g:ia") }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Twoje wysłane wiadomości
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th style="width: 50%">Tytuł</th>
+                <th style="width: 30%">Nadawca</th>
+                <th>Data</th>
+            </tr>
+            {% for message in messagesSent %}
+                <tr>
+                    <td><a href="{{ path('kindergartenweb_backend_showmessage', {'messageId': message.id}) }}">{{ message.title }}</a></td>
+                    <td>{{ message.sender.fullname }}</td>
+                    <td>{{ message.datetime | date("Y-m-d g:ia") }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

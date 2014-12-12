@@ -32,7 +32,7 @@ class ClassroomController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $teacher = $em->getRepository('KindergartenApiBundle:Teacher')->find($data['teacher']);
+        $teacher = $em->getRepository('KindergartenApiBundle:Backend')->find($data['teacher']);
 
         $classroom = new Classroom();
         $classroom
