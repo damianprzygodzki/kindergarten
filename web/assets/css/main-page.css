@@ -1,0 +1,29 @@
+.navbar {
+    background-color: #FA5456;
+    min-height: 80px;
+}
+
+.navbar-nav > li > a {
+    line-height: 50px;
+    color: #fff;
+}
+
+.navbar-nav > li > a:hover {
+    background:none;
+}
+
+.logotype {
+    width:200px;
+}
+
+.main-wrapper {
+    margin-top: 90px;
+}
+
+footer {
+    padding: 80px;
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+}

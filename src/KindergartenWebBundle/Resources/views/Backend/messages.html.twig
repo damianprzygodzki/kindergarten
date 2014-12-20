@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends "@KindergartenWeb/Default/index.html.twig" %}
 
 {% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
 
@@ -16,15 +16,17 @@
         <!-- Table -->
         <table class="table">
             <tr>
-                <th style="width: 50%">Tytuł</th>
-                <th style="width: 30%">Nadawca</th>
+                <th style="width: 40%">Tytuł</th>
+                <th style="width: 20%">Nadawca</th>
                 <th>Data</th>
+                <th class="text-right">Usuń</th>
             </tr>
             {% for message in messagesReceived %}
                 <tr>
-                    <td><a href="{{ path('kindergartenweb_backend_showmessage', {'messageId': message.id}) }}">{{ message.title }}</a></td>
+                    <td style="{% if not message.received %}font-weight: bold; {% endif %}"><a href="{{ path('kindergartenweb_backend_showmessage', {'messageId': message.id}) }}">{{ message.title }}</a></td>
                     <td>{{ message.sender.fullname }}</td>
                     <td>{{ message.datetime | date("Y-m-d g:ia") }}</td>
+                    <td class="text-right"><a href="{{ path('kindergartenweb_backend_deletemessage', {'messageId': message.id}) }}" class="pull-right btn btn-xs btn-danger">Usuń</a></td>
                 </tr>
             {% endfor %}
         </table>
@@ -39,8 +41,8 @@
         <!-- Table -->
         <table class="table">
             <tr>
-                <th style="width: 50%">Tytuł</th>
-                <th style="width: 30%">Nadawca</th>
+                <th style="width: 40%">Tytuł</th>
+                <th style="width: 20%">Nadawca</th>
                 <th>Data</th>
             </tr>
             {% for message in messagesSent %}

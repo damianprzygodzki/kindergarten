@@ -54,6 +54,13 @@ class Message
      */
     private $content;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="received", type="boolean")
+     */
+    private $received = false;
+
 
     /**
      * Get id
@@ -158,5 +165,21 @@ class Message
     public function __construct()
     {
         $this->datetime = new \DateTime("now");
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isReceived()
+    {
+        return $this->received;
+    }
+
+    /**
+     * @param boolean $received
+     */
+    public function setReceived($received)
+    {
+        $this->received = $received;
     }
 }

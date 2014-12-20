@@ -53,10 +53,28 @@ class BackendController extends Controller
     {
         $message = $this->getDoctrine()->getRepository('KindergartenApiBundle:Message')->find($messageId);
 
+        $message->setReceived(1);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
         return array(
             'message' => $message
         );
     }
+
+    /**
+     * @Route("/getNumberOfUnreceivedMessages")
+     */
+    public function unreceivedCountAction()
+    {
+        $message = $this->getDoctrine()->getRepository('KindergartenApiBundle:Message')->findBy(
+            array('receiver'=> $this->getUser(), 'received' => false)
+        );
+
+        return count($message);
+    }
+
+
 
     /**
      * @Route("/messages/delete/{messageId}")
@@ -162,6 +180,9 @@ class BackendController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($classroom);
             $em->flush();
+
+            return $this->redirect($this->generateUrl('kindergartenweb_backend_classrooms'));
+
         }
 
         return array(
@@ -195,6 +216,9 @@ class BackendController extends Controller
             $teacher->setEnabled(true);
             $em->getManager()->persist($teacher);
             $em->getManager()->flush();
+
+            return $this->redirect($this->generateUrl('kindergartenweb_backend_classrooms'));
+
         }
 
         return array(
@@ -227,6 +251,9 @@ class BackendController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($child);
             $em->flush();
+
+            return $this->redirect($this->generateUrl('kindergartenweb_backend_classrooms'));
+
         }
 
         return array(

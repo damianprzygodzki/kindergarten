@@ -32,6 +32,7 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="receiver")
+     * @ORM\OrderBy({"received" = "ASC", "datetime" = "DESC"})
      */
     private $messagesReceived;
 

@@ -1,0 +1,34 @@
+{% block form_row -%}
+    <div class="form-group">
+        <div>{{- form_label(form) -}}</div>
+        {{- form_errors(form) -}}
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock form_row %}
+
+{% block button_widget %}
+    {% spaceless %}
+        {% if label is defined %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <div class="text-right">
+            <button class="btn btn-primary" type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+                {{ label|trans({}, translation_domain) }}
+            </button>
+        </div>
+    {% endspaceless %}
+{% endblock button_widget %}
+
+{% block textarea_widget -%}
+    <div class="spacer-bottom-xs">
+        <textarea {{ block('widget_attributes') }} style="resize: none;" class="form-control">{{ value }}</textarea>
+    </div>
+{%- endblock textarea_widget %}
+
+{% block form_widget_simple -%}
+    <div class="spacer-bottom-xs">
+        {% set type = type|default('text') -%}
+        <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} class="form-control"/>
+    </div>
+{%- endblock form_widget_simple %}
+

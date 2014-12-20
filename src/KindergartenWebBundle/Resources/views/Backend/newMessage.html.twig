@@ -1,11 +1,15 @@
-{% extends "::base.html.twig" %}
+{% extends "@KindergartenWeb/Default/index.html.twig" %}
+
+{% form_theme form '@KindergartenWeb/Form/fields.html.twig' %}
 
 {% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
 
 {% block content %}
 
+    <div class="col-md-8 col-md-offset-2 form-group">
 
+        {{ form(form) }}
 
-    {{ form(form) }}
+    </div>
 
 {% endblock %}

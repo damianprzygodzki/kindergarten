@@ -1,0 +1,29 @@
+{% extends "@KindergartenWeb/Default/index.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <br><br>
+                <h2>Zaloguj się</h2>
+                <br><br>
+                <div class="form-group">
+                    <form action="{{ path("fos_user_security_check") }}" method="post">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                        <label for="username">Nazwa użytkownika</label>
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control"/>
+                        <br><br>
+                        <label for="password">Hasło</label>
+                        <input type="password" id="password" name="_password" required="required"  class="form-control"/>
+
+                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                        <label for="remember_me">Zapamiętaj</label>
+                        <br><br>
+                        <input type="submit" id="_submit" name="_submit" value="Zaloguj" class="btn btn-primary pull-right" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
