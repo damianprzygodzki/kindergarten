@@ -43,7 +43,7 @@ class Child
 
     /**
      * @ORM\ManyToOne(targetEntity="Classroom", inversedBy="children")
-     * @ORM\JoinColumn(name="classroomId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="classroomId", referencedColumnName="id",onDelete="SET NULL")
      */
     private $classroom;
 

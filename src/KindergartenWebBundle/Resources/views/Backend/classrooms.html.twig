@@ -3,9 +3,8 @@
 {% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
 
 {% block content %}
-    <div>
+    <div class="text-right">
         <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_backend_addclassroom') }}">Dodaj klase</a>
-        <a class="btn btn-primary btn-sm" href="{{ path('kindergartenweb_backend_addteacher') }}">Dodaj wychowawce</a>
     </div>
     <br>
     {% for classroom in classrooms %}
@@ -13,9 +12,13 @@
             <!-- Default panel contents -->
             <div class="panel-heading">
                 Klasa {{ classroom.name }} - Wychowawca: {{ classroom.teacher.fullname }}
-                <a class="btn btn-primary btn-xs pull-right"
+                <a class="btn btn-danger btn-xs pull-right"
+                   href="{{ path('kindergartenweb_backend_removeclassroom', {'classroomId': classroom.id}) }}">Usuń klasę</a>
+
+                <a class="btn btn-primary btn-xs pull-right" style="margin-right:10px;"
                    href="{{ path('kindergartenweb_backend_addchild', {'classroomId': classroom.id}) }}">Dodaj
                     dziecko</a>
+
             </div>
 
             <!-- Table -->
@@ -28,6 +31,7 @@
                     <tr>
                         <td>{{ child.fullname }}</td>
                         <td>{{ child.birthdate | date("Y-m-d") }}</td>
+                        <td class="text-right"><a href="{{ path('kindergartenweb_backend_deletechild', {'childId': child.id}) }}" class="pull-right btn btn-xs btn-danger">Usuń</a></td>
                     </tr>
                 {% endfor %}
             </table>

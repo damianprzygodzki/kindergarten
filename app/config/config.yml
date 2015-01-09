@@ -4,8 +4,8 @@ imports:
     - { resource: services.yml }
 
 framework:
+    translator: { fallback: pl }
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -77,3 +77,20 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: KindergartenApiBundle\Entity\User
+
+
+fos_oauth_server:
+    db_driver: orm       # Driver availables: orm, mongodb, or propel
+    client_class:        KindergartenApiBundle\Entity\Client
+    access_token_class:  KindergartenApiBundle\Entity\AccessToken
+    refresh_token_class: KindergartenApiBundle\Entity\RefreshToken
+    auth_code_class:     KindergartenApiBundle\Entity\AuthCode
+    service:
+            user_provider: fos_user.user_manager
+
+jms_serializer:
+    metadata:
+        directories:
+            FOSUserBundle:
+                path: "%kernel.root_dir%/Resources/FOSUserBundle/serializer"
+                namespace_prefix: "FOS\\UserBundle"

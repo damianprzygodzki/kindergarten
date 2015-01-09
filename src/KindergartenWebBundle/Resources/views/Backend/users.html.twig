@@ -1,0 +1,65 @@
+{% extends "@KindergartenWeb/Default/index.html.twig" %}
+
+{% block title %}KindergartenWebBundle:Teacher:default{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Rodzice
+
+            <a class="btn btn-primary btn-xs pull-right"
+               href="{{ path('kindergartenweb_backend_addparent') }}">Dodaj
+                rodzica</a>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th style="width: 40%">Imię i nazwisko</th>
+                <th style="width: 20%"></th>
+                <th>Coś</th>
+                <th class="text-right"></th>
+            </tr>
+            {% for user in parents %}
+                <tr>
+                    <td><a href="">{{ user.fullname }}</a></td>
+                    <td>{{ user.username }}</td>
+                    <td></td>
+                    <td class="text-right"><a href="{{ path('kindergartenweb_backend_deleteuser', {'username': user.username}) }}" class="pull-right btn btn-xs btn-danger">Usuń</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            Nauczyciele
+
+            <a class="btn btn-primary btn-xs pull-right"
+               href="{{ path('kindergartenweb_backend_addteacher') }}">Dodaj
+                nauczyciela</a>
+        </div>
+
+        <!-- Table -->
+        <table class="table">
+            <tr>
+                <th style="width: 40%">Imię i nazwisko</th>
+                <th style="width: 20%"></th>
+                <th>Coś</th>
+                <th class="text-right"></th>
+            </tr>
+            {% for user in teachers %}
+                <tr>
+                    <td><a href="">{{ user.fullname }}</a></td>
+                    <td>{{ user.username }}</td>
+                    <td></td>
+                    <td class="text-right"><a href="{{ path('kindergartenweb_backend_deleteuser', {'username': user.username}) }}" class="pull-right btn btn-xs btn-danger">Usuń</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+{% endblock %}

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use KindergartenApiBundle\Entity\Message;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use KindergartenApiBundle\Entity\User as User;
 
 class MessageController extends Controller
 {
@@ -26,17 +28,22 @@ class MessageController extends Controller
      */
     public function getAllMessagesAction(Request $request)
     {
-        $data = $request->request->all();
 
-        $um = $this->get('fos_user.user_manager');
-        $user = $um->findUserByUsername($data['username']);
+        /** @var User $user */
+        $user = $this->get('security.context')->getToken()->getUser();
 
-        $messages = $user->getMessagesSent();
+        if ( $user ) {
+            $messages = $user->getMessagesSent();
 
-        $serializer = $this->get('jms_serializer');
-        $messagesJSON = $serializer->serialize($messages, 'json');
+            $serializer = $this->get('jms_serializer');
+            $messagesJSON = $serializer->serialize($messages, 'json');
+            return new Response($messagesJSON);
+        }else{
+            return new JsonResponse(array(
+                'message' => 'Failed'
+            ));
+        }
 
-        return new Response($messagesJSON);
     }
 
     /**
@@ -53,7 +60,10 @@ class MessageController extends Controller
         $em = $this->getDoctrine()->getManager();
         $um = $this->get('fos_user.user_manager');
 
-        $sender = $um->findUserByUsername($data['sender']);
+
+        $sender = $this->get('security.context')->getToken()->getUser();
+
+        if($sender){
         $receiver = $um->findUserByUsername($data['receiver']);
 
         $message = new Message();
@@ -67,14 +77,13 @@ class MessageController extends Controller
         $em->flush();
 
         return new Response(200);
+
+        }else{
+            return new JsonResponse(array(
+                'message' => 'Failed'
+            ));
+        }
     }
 
-    /**
-     * @param ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
 
 }

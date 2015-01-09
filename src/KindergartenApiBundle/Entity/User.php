@@ -40,6 +40,7 @@ class User extends BaseUser
      * @var string
      *
      * @ORM\Column(name="fullname", type="string", length=255)
+     * @JMS\Expose
      */
     private $fullname;
 

@@ -1,4 +1,3 @@
-# app/config/security.yml
 security:
     providers:
         fos_userbundle:
@@ -8,6 +7,21 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     firewalls:
+        oauth_authorize:
+            pattern:    ^/oauth/v2/auth
+            provider: fos_userbundle
+            form_login:
+                check_path: /oauth/v2/auth/login_check
+                login_path: /oauth/v2/auth/login
+            anonymous: false
+        oauth_token:
+            pattern:    ^/oauth/v2/token
+            security:   false
+        api:
+            pattern:    ^/api
+            fos_oauth:  true
+            stateless:  true
+            anonymous:  false # can be omitted as its default value
         main:
             pattern: ^/
             form_login:
@@ -16,11 +30,13 @@ security:
             logout:       true
             anonymous:    true
 
+
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
